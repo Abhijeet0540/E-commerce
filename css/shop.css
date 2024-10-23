@@ -1,0 +1,12 @@
+span#cart-count {
+    font-size: 9px;
+    background: red;
+    margin-left: 6px;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 35px;
+    position: relative;
+    bottom: 15px;
+    right: 5px;
+}
+
