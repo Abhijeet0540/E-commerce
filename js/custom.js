@@ -69,9 +69,8 @@
 	};
 	sitePlusMinus();
 })()
-//
 
-//
+// Login and Logout Functionality
 document.addEventListener("DOMContentLoaded", () => {
     let users = JSON.parse(localStorage.getItem('users')) || [];
     
@@ -154,38 +153,3 @@ function showToast(message, isError = false) {
         });
     }, 1000);
 }
-
-// when i long in can you add a active this arry in local storage to this index is active 
-// when i long out can you remove the active this arry in local storage 
-
-// Logout functionality
-// document.getElementById("logout").addEventListener("click", function(event) {
-//     event.preventDefault(); // Prevent default link behavior
-
-//     // Show a confirmation dialog
-//     const confirmation = confirm("Are you sure you want to log out?");
-    
-//     if (confirmation) {
-//         try {
-//             // Clear session data (if any)
-//             sessionStorage.clear();
-
-//             // Optional: You can add a brief feedback message to the user (e.g., using an alert)
-//             alert("You have been logged out successfully.");
-
-//             // Redirect to login or homepage
-//             window.location.href = "login.html"; // Change to your login or homepage URL
-//         } catch (error) {
-//             console.error("Logout error:", error);
-//             alert("An error occurred while logging out. Please try again.");
-//         }
-//     } else {
-//         // User canceled logout, do nothing
-        
-//     }
-// });
-
-
-
-
-

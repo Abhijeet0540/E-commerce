@@ -110,37 +110,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 });
-
-
-    // Logout functionality
-//     document.getElementById("logout").addEventListener("click", function(event) {
-//         event.preventDefault(); // Prevent default link behavior
-
-//         // Show a confirmation dialog
-//         const confirmation = confirm("Are you sure you want to log out?");
-        
-//         if (confirmation) {
-//             try {
-//                 // Clear local storage
-//                 localStorage.clear();
-//                 // Clear session data (if any)
-//                 sessionStorage.clear();
-
-//                 // Show a success toast message
-//                 showToast("You have been logged out successfully.");
-
-//                 // Redirect to login or homepage after a brief delay
-//                 setTimeout(() => {
-//                     window.location.href = "login.html"; // Change to your login or homepage URL
-//                 }, 2000); // Adjust the delay as needed
-//             } catch (error) {
-//                 console.error("Logout error:", error);
-//                 showToast("An error occurred while logging out. Please try again.", true);
-//             }
-//         } 
-//     });
-// });
-
-
-// Handle the sign-in form submission
-

@@ -8,15 +8,15 @@ function addToCart(name, price, image, price_id) {
     let product = cart.find(item => item.name === name);
 
     if (product) {
-        product.quantity += 1; // Increase quantity
+        product.quantity += 1; 
     } else {
         // Add new product with image and price_id
         cart.push({
             name: name,
             price: price,
             quantity: 1,
-            image: image,  // Store the product image URL
-            price_id: price_id // Store the price_id
+            image: image, 
+            price_id: price_id 
         });
     }
 
@@ -44,13 +44,12 @@ function updateCartCount() {
         if (totalItems === 0) {
             cartCountElement.style.display = 'none';
         } else {
-            cartCountElement.style.display = 'inline'; // Show if there are items
+            cartCountElement.style.display = 'inline'; 
         }
     } else {
         console.warn('Element with ID "cart-count" not found in the DOM.');
     }
 }
-
 
 // Call the updateCartCount function when the page loads
 document.addEventListener('DOMContentLoaded', updateCartCount);
@@ -64,17 +63,8 @@ function showToast(message) {
     const toast = new bootstrap.Toast(toastElement);
     toast.show();
 
-    // Optional: reload the page after a brief moment (set to 1 second)
+    // Reload the page after 1 second
     setTimeout(() => {
         window.location.reload();
     }, 1000);
 }
-
-
-
-// can you do this the my data stoded in local storage my naming users to read the data in and how this id username
-// must have log in in card 
-
-// only Fetch user data from local storage with the key 'users'
-// and show in username in navbar
-

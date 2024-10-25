@@ -69,8 +69,3 @@ function removeFromCart(productName) {
     localStorage.setItem('cart', JSON.stringify(cart));
     location.reload(); 
 }
-
-
-// when the users is active is true userIndex to go to the next page
-// when the users is active is false userIndex to go to the login page
-// and also the function is to check in buy clicking the buy button
