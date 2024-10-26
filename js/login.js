@@ -21,13 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const users = JSON.parse(localStorage.getItem('users')) || [];
 
         if (!name || !email || !password) {
-            showToast("Please fill in all fields.", true);
+            showToast("Please fill in all the required fields.", true);
             return;
         }
-
-        const namePattern = /^[a-zA-Z\s]{4,30}$/;
-        if (!namePattern.test(name)) {
-            showToast("Name must only contain letters, and be between 4 and 30 characters.", true);
+        // name length validation 4
+        if (name.length < 4) {
+            showToast("Name must be at least 4 characters long.", true);
+            return;
+        }
+        // spacal caracter validation
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+            showToast("Name must not contain special characters.", true);
             return;
         }
 
@@ -68,7 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const email = document.getElementById('signInEmail').value.trim();
         const password = document.getElementById('signInPassword').value.trim();
-    
+
+        if (!email && !password) {
+            showToast("Please enter your email and password.", true);
+            return;
+        }
+
         if (!email) {
             showToast("Please enter your email address.", true);
             return;
@@ -84,6 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast("Please enter your password.", true);
             return;
         }
+        
+        if(password.length < 6) {
+            showToast("Password must be at least 6 characters long.", true);
+            return;
+        }
 
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find(user => user.email === email && user.password === password);
@@ -96,9 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('loggedInUser', JSON.stringify(user));
         showToast(`Welcome to Furni, ${user.name}!`);
 
+        //spinner
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';
+
         setTimeout(() => {
             window.location.href = 'index.html';
-        }, 2000);
+        }, 2000); // Adjust the timing if needed
     });
 
     // Function to show toast notifications

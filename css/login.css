@@ -281,3 +281,21 @@ footer a {
 
 
 /* display non toast in the initial state */
+
+.spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14.4px;
+	height: 14.4px;
+	border-radius: 14.4px;
+	box-shadow: 36px 0px 0 0 rgba(82,0,0,0.2), 29.2px 21.2px 0 0 rgba(82,0,0,0.4), 11.16px 34.2px 0 0 rgba(82,0,0,0.6), -11.16px 34.2px 0 0 rgba(82,0,0,0.8), -29.2px 21.2px 0 0 rgba(82, 0, 0, 0.82);
+    animation: spin 1s linear infinite;
+    z-index: 1000;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

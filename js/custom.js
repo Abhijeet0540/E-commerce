@@ -99,39 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         userDropdown.style.display = 'none';
     }
 
-    // Logout functionality
-    document.getElementById("logout").addEventListener("click", function(event) {
-        event.preventDefault(); 
-
-        const confirmation = confirm("Are you sure you want to log out?");
-        
-        if (confirmation) {
-            try {
-                const userIndex = users.findIndex(user => user.email === loggedInUser.email);
-                
-                if (userIndex !== -1) {
-                    users[userIndex].active = false;  
-                    localStorage.setItem('users', JSON.stringify(users));
-                }
-
-                localStorage.removeItem('loggedInUser');
-
-                usernameElement.textContent = "Login";
-                usernameElement.href = "login.html";
-                userDropdown.style.display = 'none'; 
-
-                // Show a success toast message
-                showToast("You have been logged out successfully.");
-
-                setTimeout(() => {
-                    window.location.href = "login.html"; 
-                }, 1000);
-            } catch (error) {
-                console.error("Logout error:", error);
-                showToast("An error occurred while logging out. Please try again.", true);
-            }
-        }
-    });
+    
 });
 
 // Function to show toast notifications
