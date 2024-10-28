@@ -106,8 +106,8 @@ function placeOrder(event) {
         stripe.redirectToCheckout({
             lineItems: cartItems,
             mode: "payment",
-            successUrl: "http://127.0.0.1:57612/thankyou.html",
-            cancelUrl: "http://127.0.0.1:57612/error.html",
+            successUrl: "http://127.0.0.1:58533/thankyou.html",
+            cancelUrl: "http://127.0.0.1:58533/error.html",
         }).then(function (result) {
             if (result.error) {
                 console.log(result.error.message);

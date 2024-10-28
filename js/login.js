@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast("Name must be at least 4 characters long.", true);
             return;
         }
+        //name length validation 9 char
+        if (name.length > 9) {
+            showToast("Name must be at most 9 characters long.", true);
+            return; 
+        }
         // spacal caracter validation
         if (!/^[a-zA-Z\s]+$/.test(name)) {
             showToast("Name must not contain special characters.", true);
@@ -119,10 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000); // Adjust the timing if needed
     });
 
-    // Function to show toast notifications
+    // Function to show toast notifications add box shadow input 
+
     function showToast(message, isError = false) {
         const toast = document.createElement('div');
-        toast.className = `toast ${isError ? 'toast-error' : 'toast-success'}`;
+        toast.className = `toast ${isError ? 'toast-error' : 'toast-success' }`;
         toast.textContent = message;
         document.body.appendChild(toast);
 
