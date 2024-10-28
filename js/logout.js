@@ -12,7 +12,7 @@ document.getElementById("logout").addEventListener("click", function(event) {
 
     // SweetAlert confirmation dialog with Bootstrap buttons
     swalWithBootstrapButtons.fire({
-        title: "Are you sure?",
+        title: `Are you sure?`,
         text: "You will be logged out and redirected to the login page.",
         icon: "warning",
         showCancelButton: true,
