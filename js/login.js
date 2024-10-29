@@ -22,38 +22,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!name || !email || !password) {
             showToast("Please fill in all the required fields.", true);
-            return;
+            return false; // Return false if validation fails
         }
-        // name length validation 4
-        if (name.length < 4) {
-            showToast("Name must be at least 4 characters long.", true);
-            return;
+
+        // Name must be at least 2 characters long
+        if (name.length < 2) {
+            showToast("Name must be at least 2 characters long.", true);
+            return false;
         }
-        //name length validation 9 char
+
+        // Name length validation (max 9 characters)
         if (name.length > 9) {
             showToast("Name must be at most 9 characters long.", true);
-            return; 
+            return false; 
         }
-        // spacal caracter validation
+
+        // Special character validation
         if (!/^[a-zA-Z\s]+$/.test(name)) {
             showToast("Name must not contain special characters.", true);
-            return;
+            return false;
         }
 
         const emailPattern = /^[^\s@]+@gmail\.com$/;
         if (!emailPattern.test(email)) {
             showToast("Please enter a valid Gmail address.", true);
-            return;
+            return false;
         }
 
         if (password.length < 6) {
             showToast("Password must be at least 6 characters long.", true);
-            return;
+            return false;
         }
 
         if (users.some(user => user.email === email)) {
             showToast("Email is already registered. Please use a different email.", true);
-            return;
+            return false;
         }
 
         const newUser = { name, email, password };
@@ -69,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             container.classList.remove("right-panel-active");
         }, 2000);
+
+        return true; // Return true on successful sign-up
     });
 
     // Handle the sign-in form submission with validation
@@ -80,28 +85,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!email && !password) {
             showToast("Please enter your email and password.", true);
-            return;
+            return false;
         }
 
         if (!email) {
             showToast("Please enter your email address.", true);
-            return;
+            return false;
         }
 
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             showToast("Please enter a valid email address.", true);
-            return;
+            return false;
         }
 
         if (!password) {
             showToast("Please enter your password.", true);
-            return;
+            return false;
         }
         
-        if(password.length < 6) {
+        if (password.length < 6) {
             showToast("Password must be at least 6 characters long.", true);
-            return;
+            return false;
         }
 
         const users = JSON.parse(localStorage.getItem('users')) || [];
@@ -109,26 +114,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!user) {
             showToast("Invalid email or password. Please try again.", true);
-            return;
+            return false;
         }
 
         localStorage.setItem('loggedInUser', JSON.stringify(user));
         showToast(`Welcome to Furni, ${user.name}!`);
 
-        //spinner
+        // Spinner
         const spinner = document.getElementById('spinner');
         spinner.style.display = 'block';
 
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 2000); // Adjust the timing if needed
+
+        return true; // Return true on successful sign-in
     });
 
-    // Function to show toast notifications add box shadow input 
-
+    // Function to show toast notifications
     function showToast(message, isError = false) {
         const toast = document.createElement('div');
-        toast.className = `toast ${isError ? 'toast-error' : 'toast-success' }`;
+        toast.className = `toast ${isError ? 'toast-error' : 'toast-success'}`;
         toast.textContent = message;
         document.body.appendChild(toast);
 

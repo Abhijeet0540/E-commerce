@@ -13,3 +13,6 @@ if (loggedInUser) {
     document.getElementById("email").textContent = "-";
     document.getElementById("status").textContent = "-";
 }
+
+
+

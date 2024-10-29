@@ -3,7 +3,7 @@ function placeOrder(event) {
     event.preventDefault();
 
     clearAllErrors();
-
+    
     // Validate all fields
     const country = document.getElementById('country-select');
     const firstName = document.getElementById('country-fname');
@@ -58,33 +58,43 @@ function placeOrder(event) {
         isValid = false;
     }
 
+    // "Postal Code / Zip is required."
     if (postal && postal.value.trim() === "") {
         showError(postal, "Postal Code / Zip is required.");
         isValid = false;
-    } else if (!/^\d{5}(-\d{4})?$/.test(postal.value)) {  // Example: US ZIP code format
-        showError(postal, "Enter a valid Postal Code.");
+    } 
+    
+    else if (postal.value.trim().length !== 5 && postal.value.trim().length !== 9) {
+        showError(postal, "Postal Code must be 5 or 9 digits long.");
         isValid = false;
     }
-
+    else if (!/^[0-9]+$/.test(postal.value.trim())) {
+        showError(postal, "Postal Code must contain only digits.");
+        isValid = false;
+    }
+    // "Email address is not valid."
     if (email && email.value.trim() === "") {
         showError(email, "Email Address is required.");
         isValid = false;
-    } else if (!validateEmail(email.value.trim())) {
-        showError(email, "Please enter a valid Email Address.");
-        isValid = false;
-    } else if (email.value.trim().includes("example.com")) {
-        showError(email, "Emails from example.com are not allowed.");
-        isValid = false;
-    } else if (email.value.trim().includes(" ")) {
-        showError(email, "Email Address cannot contain spaces.");
+    }
+    //"Email can only contain letters, numbers, and standard symbols
+    else if (!/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email.value.trim())) {
+        showError(email, "Email Address contains invalid characters.");
         isValid = false;
     }
-
+    
     if (phone && phone.value.trim() === "") {
         showError(phone, "Phone Number is required.");
         isValid = false;
-    } else if (!/^[0-9]{10}$/.test(phone.value.trim())) {
-        showError(phone, "Please enter a valid Phone Number.");
+    } 
+    // "Phone number must contain only digits."
+    else if (!/^[0-9]+$/.test(phone.value.trim())) {
+        showError(phone,"Phone Number must contain only digits.");
+        isValid = false;
+    }
+    //"Phone number must be 10 digits."
+    else if (phone.value.trim().length !== 10) {
+        showError(phone, "Phone Number must be 10 digits long.");
         isValid = false;
     }
 
@@ -106,8 +116,8 @@ function placeOrder(event) {
         stripe.redirectToCheckout({
             lineItems: cartItems,
             mode: "payment",
-            successUrl: "http://127.0.0.1:58533/thankyou.html",
-            cancelUrl: "http://127.0.0.1:58533/error.html",
+            successUrl: "http://127.0.0.1:63981/thankyou.html",
+            cancelUrl: "http://127.0.0.1:63981/error.html",
         }).then(function (result) {
             if (result.error) {
                 console.log(result.error.message);
@@ -125,7 +135,7 @@ function showError(input, message) {
     error.textContent = message;
     input.parentElement.appendChild(error);
     input.classList.add('is-invalid');
-    input.style.boxShadow = "0 0 0 0.2rem rgba(220, 53, 69, 0.25)";
+    input.style.boxShadow = "0 0 0.2rem 0.2rem rgba(220, 53, 69, 0.25)";
 }
 
 // Function to clear the error message for a specific input
