@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             window.location.href = 'index.html';
-        }, 2000); // Adjust the timing if needed
+        }, 2000); 
 
         return true; // Return true on successful sign-in
     });
@@ -148,4 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
             toast.addEventListener('transitionend', () => toast.remove());
         }, 2000);
     }
+});
+
+//togglePassword to show show/hide password
+const togglePassword = document.querySelector("#togglePassword");
+const password = document.querySelector("#signInPassword");
+
+togglePassword.addEventListener("click", function () {
+    const type = password.getAttribute("type") === "password" ? "text" : "password";
+    password.setAttribute("type", type);
+    this.classList.toggle("fa-eye-slash");
 });

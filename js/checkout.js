@@ -100,31 +100,38 @@ function placeOrder(event) {
 
     // If all fields are valid, proceed with payment
     if (isValid) {
+        // Initialize Stripe
         let stripe = Stripe("pk_test_51QA8RPIHWM8A4yFZqrWojP8IF2x896DJdUWpc999Liof9dPfCrP3iIyTEILm1FfbUxAy601S2guAdzzTex3n8A6v004uaGvLDE");
 
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        // Retrieve active user from the `users` array
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        const activeUser = users.find(user => user.email === loggedInUser.email && user.active);
 
-        // Create an array of line items
-        const cartItems = cart.map(item => {
-            return {
-                price: item.price_id,
-                quantity: item.quantity
-            };
-        });
+        if (!activeUser) {
+            console.error("Active user not found or not logged in.");
+            return;
+        }
+
+        // Create an array of line items for Stripe Checkout
+        const cartItems = activeUser.cart.map(item => ({
+            price: item.price_id,
+            quantity: item.quantity
+        }));
 
         // Redirect to Stripe Checkout
         stripe.redirectToCheckout({
             lineItems: cartItems,
             mode: "payment",
-            successUrl: "http://127.0.0.1:63981/thankyou.html",
-            cancelUrl: "http://127.0.0.1:63981/error.html",
+            successUrl: "http://127.0.0.1:53810/thankyou.html",
+            cancelUrl: "http://127.0.0.1:53810/error.html",
         }).then(function (result) {
             if (result.error) {
                 console.log(result.error.message);
             }
         });
-        clearAllInputFields();
 
+        clearAllInputFields();
     }
 }
 
@@ -162,7 +169,7 @@ function validateEmail(email) {
     return re.test(String(email).toLowerCase());
 }
 
-// A
+
 document.querySelectorAll('.form-control').forEach(input => {
     input.addEventListener('focus', () => clearError(input));
     input.addEventListener('input', () => clearError(input)); 
@@ -171,17 +178,27 @@ document.querySelectorAll('.form-control').forEach(input => {
 document.addEventListener('DOMContentLoaded', function () {
 
     updateCartTotals();
+    
 });
 
 
 // Function to update cart totals
 function updateCartTotals() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const activeUser = users.find(user => user.email === loggedInUser.email && user.active);
+
+    if (!activeUser) {
+        console.error("Active user not found or not logged in.");
+        return;
+    }
+
+    const cart = activeUser.cart || [];
     let subtotal = 0;
 
     const orderTableBody = document.querySelector('tbody');
 
-    // Clear existing rows except for the subtotal and total rows
+    // Clear existing rows
     while (orderTableBody.rows.length > 2) {
         orderTableBody.deleteRow(0);
     }
@@ -191,16 +208,77 @@ function updateCartTotals() {
         const totalItemPrice = item.price * item.quantity;
         subtotal += totalItemPrice;
 
-        // Create a new row for each cart item
+        // Create a new row for each cart item.
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${item.name} <strong class="mx-2">x</strong> ${item.quantity}</td>
             <td>$${totalItemPrice.toFixed(2)}</td>
+            
         `;
         orderTableBody.insertBefore(row, orderTableBody.firstChild);
     });
-
-    // Update the subtotal and total in the table in my 
+    
+    // Add row to show subtotal
+    
+    // Update the subtotal and total and Discount
     document.querySelector('.site-block-order-table tbody tr:nth-last-child(2) td:last-child').textContent = `$${subtotal.toFixed(2)}`;
     document.querySelector('.site-block-order-table tbody tr:last-child td:last-child strong').textContent = `$${subtotal.toFixed(2)}`;
+}
+
+
+function applyCoupon() {
+    const couponCodeInput = document.getElementById('coupon_code');
+    const couponCode = couponCodeInput.value.trim();
+    const validCoupons = {
+        "SAVE10": 0.10,  // 10% discount
+        "SAVE20": 0.20   // 20% discount
+    };
+
+    const orderTableBody = document.querySelector('.order-table tbody');
+    const subtotalElement = document.querySelector('#order-subtotal');
+    const totalElement = document.querySelector('#order-total strong');
+    
+    let subtotal = parseFloat(subtotalElement.textContent.replace('$', ''));
+    const discountRate = validCoupons[couponCode] || 0;
+
+    // Remove any existing discount row to avoid duplicates
+    const existingDiscountRow = document.getElementById('order-discount');
+    if (existingDiscountRow) {
+        existingDiscountRow.remove();
+    }
+
+    // Check if the coupon code is valid and apply the discount
+    if (discountRate > 0) {
+        const discountAmount = subtotal * discountRate;
+        const newTotal = subtotal - discountAmount;
+
+        // Add a new row for the discount amount
+        const discountRow = document.createElement('tr');
+        discountRow.id = 'order-discount';
+        discountRow.innerHTML = `
+            <td class="text-primary fs-6"><strong>Discount (${couponCode})</strong></td>
+            <td class="text-primary"><strong>-$${discountAmount.toFixed(2)}</strong></td>
+        `;
+        // Insert the discount row above the total row
+        orderTableBody.insertBefore(discountRow, totalElement.closest('tr'));
+
+        // Update the total with the discounted amount
+        totalElement.textContent = `$${newTotal.toFixed(2)}`;
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Coupon Applied',
+            text: `Coupon "${couponCode}" Applied successfully.`,
+        });
+    } else {
+        // Alert if the coupon code is invalid
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Coupon',
+            text: 'Please enter a valid coupon code.',
+        });
+    }
+
+    // Clear the coupon code input field
+    couponCodeInput.value = '';
 }

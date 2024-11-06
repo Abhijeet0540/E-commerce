@@ -4,9 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (loggedInUser) {
         const userIndex = users.findIndex(user => user.email === loggedInUser.email);
-        
-        if (users[userIndex] && users[userIndex].active) {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        if (userIndex !== -1 && users[userIndex].active) {
+            const activeUser = users[userIndex];
+            const cart = activeUser.cart || []; // Retrieve cart from the active user object
             const cartTableBody = document.querySelector('tbody');
             let subtotal = 0; 
 
@@ -37,35 +38,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
             document.getElementById('cart-total').textContent = `$${subtotal.toFixed(2)}`; 
-        } 
+        } else {
+            // Redirect if user is not active
+            window.location.href = "login.html";
+        }
     } else {
-        // User is not logged in or inactive redirect to login page
+        // Redirect if user is not logged in
         window.location.href = "login.html";
     }
 });
 
 // Function to update product quantity
 function updateQuantity(productName, change) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const product = cart.find(item => item.name === productName);
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const userIndex = users.findIndex(user => user.email === loggedInUser.email);
 
-    if (product) {
-        product.quantity += change;
+    if (userIndex !== -1 && users[userIndex].active) {
+        const activeUser = users[userIndex];
+        const cart = activeUser.cart || [];
 
-        if (product.quantity < 1) {
-            product.quantity = 1;
+        const product = cart.find(item => item.name === productName);
+        if (product) {
+            product.quantity += change;
+            if (product.quantity < 1) product.quantity = 1;
+
+            // Save the updated cart to the active user in users array
+            activeUser.cart = cart;
+            users[userIndex] = activeUser;
+            localStorage.setItem('users', JSON.stringify(users));
+
+            location.reload();
         }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-
-        location.reload();
     }
 }
 
 // Function to remove product from cart
 function removeFromCart(productName) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart = cart.filter(item => item.name !== productName);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    location.reload(); 
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const userIndex = users.findIndex(user => user.email === loggedInUser.email);
+
+    if (userIndex !== -1 && users[userIndex].active) {
+        const activeUser = users[userIndex];
+        activeUser.cart = activeUser.cart.filter(item => item.name !== productName);
+
+        // Save the updated cart to the active user in users array
+        users[userIndex] = activeUser;
+        localStorage.setItem('users', JSON.stringify(users));
+
+        location.reload();
+    }
 }

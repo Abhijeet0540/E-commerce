@@ -1,7 +1,18 @@
 // Today's work:
 // Javascript - E-Commerce Website :-
-// 1 . logout page sweet alert with tooster notification
-// 2 . add socal media link in footer 
+// 1. add password show and hide -done
+// 2. product data storage in local storage -pending
+// 3. pertisular user data with the product details store in the users array in local storage -pending
 
 
 
+particular user data with the product details store in the users array in local storage. 
+
+by using the logged in user data and loggedInUser store the product data in the array in local storage. 
+
+
+// Today's work:
+// Javascript - E-Commerce Website :-
+// 1. user data and product data store in the local storage -done
+// 2. add coupon code in checkout page -done
+// 

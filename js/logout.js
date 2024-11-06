@@ -1,6 +1,6 @@
 // Logout functionality
-document.getElementById("logout").addEventListener("click", function(event) {
-    event.preventDefault(); 
+document.getElementById("logout").addEventListener("click", function (event) {
+    event.preventDefault();
 
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -28,14 +28,14 @@ document.getElementById("logout").addEventListener("click", function(event) {
 
                 // Find the user index in the stored users array
                 const userIndex = users.findIndex(user => user.email === loggedInUser.email);
-                
+
                 if (userIndex !== -1) {
                     // Set the user's active status to false
-                    users[userIndex].active = false;  
+                    users[userIndex].active = false;
                     localStorage.setItem('users', JSON.stringify(users));
                 }
 
-                
+
                 localStorage.removeItem('loggedInUser');
 
                 const usernameElement = document.getElementById("username");
@@ -44,7 +44,7 @@ document.getElementById("logout").addEventListener("click", function(event) {
                 if (usernameElement && userDropdown) {
                     usernameElement.textContent = "Login";
                     usernameElement.href = "login.html";
-                    userDropdown.style.display = 'none'; 
+                    userDropdown.style.display = 'none';
                 }
 
                 swalWithBootstrapButtons.fire({
@@ -57,7 +57,7 @@ document.getElementById("logout").addEventListener("click", function(event) {
 
                 // Redirect to login page after a short delay
                 setTimeout(() => {
-                    window.location.href = "login.html"; 
+                    window.location.href = "login.html";
                 }, 2000);
             } catch (error) {
                 console.error("Logout error:", error);
@@ -65,9 +65,9 @@ document.getElementById("logout").addEventListener("click", function(event) {
                 showToast("An error occurred while logging out. Please try again.", true);
             }
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-            showToast("Logout cancelled.", false);
-            
+            showToast(`Logout cancelled.`, false);
+
         }
-        
+
     });
 });

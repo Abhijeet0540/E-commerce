@@ -186,27 +186,26 @@
 					</div>
 				</div>
 				<div class="col-md-6 ">
-					<div class="row mb-5 d-none">
+					<div class="row mb-5 ">
 						<div class="col-md-12">
 							<h2 class="h3 mb-3 text-black">Coupon Code</h2>
 							<div class="p-3 p-lg-5 border bg-white">
-								<label for="c_code" class="text-black mb-3">Enter your coupon code if you have
+								<label for="coupon_code" class="text-black mb-3">Enter your coupon code if you have
 									one</label>
 								<div class="input-group w-75 couponcode-wrap">
-									<input type="text" class="form-control me-2" id="c_code" placeholder="Coupon Code"
-										aria-label="Coupon Code" aria-describedby="button-addon2">
+									<input type="text" class="form-control me-2" id="coupon_code" placeholder="Coupon Code"
+										aria-label="Coupon Code" aria-describedby="apply-coupon">
 									<div class="input-group-append">
 										<button class="btn btn-black btn-sm" type="button"
-											id="button-addon2">Apply</button>
+											id="apply-coupon" onclick="applyCoupon()">Apply</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<div class="row mb-5">
-						<div class="col-md-12">
-							<h2 class="h3 mb-3 text-black">Your Order</h2>
+					<div class="row mb-6">
+						<div class="col-md-12 mb-5">
+							<h2 class="h3  text-black">Your Order</h2>
 							<div class="p-3 p-lg-5 border bg-white">
 								<table class="order-table table site-block-order-table mb-5 " >
 									<thead>
@@ -216,6 +215,10 @@
 										</tr>
 									</thead>
 									<tbody>
+										<tr>
+											<td class="text-black font-weight-bold" ><strong>Coupon Code</strong></td>
+											<td class="text-black"id="order-subtotal"></td>
+										</tr>
 										<tr>
 											<td class="text-black font-weight-bold" ><strong>Cart Subtotal</strong></td>
 											<td class="text-black"id="order-subtotal"></td>
@@ -404,13 +407,10 @@
 		</div>
 	</footer>
 	<!-- End Footer Section -->
-
-
 	<script src="js/checkout.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/tiny-slider.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.3/dist/sweetalert2.all.min.js"></script>
 </body>
-
 </html>
