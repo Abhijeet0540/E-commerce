@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    
+
     if (loggedInUser) {
         const userIndex = users.findIndex(user => user.email === loggedInUser.email);
 
         if (userIndex !== -1 && users[userIndex].active) {
             const activeUser = users[userIndex];
-            const cart = activeUser.cart || []; // Retrieve cart from the active user object
+            const cart = activeUser.cart || [];
             const cartTableBody = document.querySelector('tbody');
-            let subtotal = 0; 
+            let subtotal = 0;
 
             cart.forEach(product => {
                 const row = document.createElement('tr');
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('cart-total').textContent = `$${subtotal.toFixed(2)}`; 
+            document.getElementById('cart-total').textContent = `$${subtotal.toFixed(2)}`;
         } else {
             // Redirect if user is not active
             window.location.href = "login.html";
@@ -46,6 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // Redirect if user is not logged in
         window.location.href = "login.html";
     }
+
+    // Add event listener to Buy Now button
+    document.getElementById('buy-now').addEventListener('click', () => {
+        const userIndex = users.findIndex(user => user.email === loggedInUser.email);
+
+        if (userIndex !== -1 && users[userIndex].active) {
+            const activeUser = users[userIndex];
+            const cart = activeUser.cart || [];
+
+            if (cart.length === 0) {
+                // Redirect to shop page if cart is empty
+                window.location.href = "shop.html";
+            } else {
+                // Redirect to checkout page if cart has products
+                window.location.href = "checkout.html";
+            }
+        } else {
+            // Redirect to login if user is not active or not logged in
+            window.location.href = "login.html";
+        }
+    });
 });
 
 // Function to update product quantity
