@@ -13,6 +13,11 @@ by using the logged in user data and loggedInUser store the product data in the 
 
 // Today's work:
 // Javascript - E-Commerce Website :-
-// 1. user data and product data store in the local storage
-// 2. add coupon code in checkout page -done
-// 3. checkout page show discounted price with showing coupon code -done
+// 1. card count (bug) fix -done
+// 2. card data is blank dont go to checkout page -done
+
+
+
+Name : Abhijeet Dongre
+Designation :Intern
+Technical stack - Frontend- HTML, CSS, BOOTSTRAP,TAILWIND, JavaScript,JQuery.

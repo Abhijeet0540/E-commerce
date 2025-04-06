@@ -13,11 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle the sign-up form submission
     document.querySelector('.sign-up-container form').addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         const name = document.getElementById('signUpName').value.trim();
         const email = document.getElementById('signUpEmail').value.trim();
         const password = document.getElementById('signUpPassword').value.trim();
-        
+
         const users = JSON.parse(localStorage.getItem('users')) || [];
 
         if (!name || !email || !password) {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Name length validation (max 9 characters)
         if (name.length > 9) {
             showToast("Name must be at most 9 characters long.", true);
-            return false; 
+            return false;
         }
 
         // Special character validation
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle the sign-in form submission with validation
     document.querySelector('.sign-in-container form').addEventListener('submit', (e) => {
         e.preventDefault();
-    
+
         const email = document.getElementById('signInEmail').value.trim();
         const password = document.getElementById('signInPassword').value.trim();
 
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast("Please enter your password.", true);
             return false;
         }
-        
+
         if (password.length < 6) {
             showToast("Password must be at least 6 characters long.", true);
             return false;
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             window.location.href = 'index.html';
-        }, 2000); 
+        }, 2000);
 
         return true; // Return true on successful sign-in
     });
